@@ -11,11 +11,27 @@ if [ -z "$EB_TOKEN" ]; then
     exit 1
 fi
 
+JQ_PAYLOAD=$(jq -n \
+--arg username "$EB_USERNAME" \
+--arg token "$EB_TOKEN" \
+--arg msg "$WA_MSG" \
+--arg recipients "$WA_RECIPIENTS" \
+'{
+    WA: {
+        auth: { username: $username, apikey: $token }, 
+        message: { subject: "Title for dashboard ONLY", messagetext: $msg }, 
+        recipients: [$recipients]
+    }
+}')
+
+
+
 # Call the sample API
 RESPONSE=$(curl -s -w "\n%{http_code}" \
   -X POST "https://api.ebulksms.com/sendwhatsapp.json" \
   -H "Content-Type: application/json" \
-  -d '{"WA": { "auth": { "username": "$EB_USERNAME", "apikey": "$EB_TOKEN" }, "message": { "subject": "Title for dashboard ONLY", "messagetext": "$WA_MSG" }, "recipients": ["$WA_RECIPIENTS"]}} ')
+  -d "$JQ_PAYLOAD")
+
 
 # Separate the body and the HTTP status code
 HTTP_BODY=$(echo "$RESPONSE" | sed '$d')
