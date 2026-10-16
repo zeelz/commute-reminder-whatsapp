@@ -1,0 +1,32 @@
+
+name: Weekly WA Reminder
+
+on:
+  schedule:
+    # Runs at 00:00 (midnight) UTC every Friday
+    - cron: '18 10 * * 5'
+    # - cron: '0 0 * * 5'
+  # Allows you to manually trigger the script from the GitHub UI for testing
+  workflow_dispatch:
+
+jobs:
+  run-api-call:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code so the runner can see script.sh
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      # Step 2: Make the script executable and run it
+      - name: Execute Bash Script
+        env:
+          # Pulls the secret token securely from your GitHub Repository Secrets
+          EB_TOKEN: ${{ secrets.EB_TOKEN }}
+          EB_USERNAME: ${{ vars.EB_USERNAME }}
+          WA_RECIPIENTS: ${{ vars.WA_RECIPIENTS }}
+          WA_MSG: ${{ vars.WA_MSG }}
+
+        run: |
+          chmod +x ./script.sh
+          ./script.sh
