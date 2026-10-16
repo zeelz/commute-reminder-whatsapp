@@ -4,10 +4,10 @@ name: Weekly WA Reminder
 on:
   schedule:
     # Runs at 00:00 (midnight) UTC every Friday
-    - cron: '21 9 * * 5'
+    - cron: '23 9 * * 5'
     # - cron: '0 0 * * 5'
   # Allows you to manually trigger the script from the GitHub UI for testing
-  workflow_dispatch:
+#   workflow_dispatch:
 
 jobs:
   run-api-call:
