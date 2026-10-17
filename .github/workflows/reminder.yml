@@ -2,15 +2,12 @@
 name: Weekly WA Reminder
 
 on:
+  # cron isn't reliable
   # schedule:
   #   # Runs at 00:00 (midnight) UTC every Friday
   #   - cron: '44 21 * * 5'
 
-  # External API trigger
-  repository_dispatch:
-    types: [trigger-weekly-job]
-
-  # Allows you to manually trigger the script from the GitHub UI for testing
+  # Allows for manual trigger or external API trigger
   workflow_dispatch:
 
 jobs:
@@ -29,7 +26,8 @@ jobs:
           EB_TOKEN: ${{ secrets.EB_TOKEN }}
           EB_USERNAME: ${{ vars.EB_USERNAME }}
           WA_RECIPIENTS: ${{ vars.WA_RECIPIENTS }}
-          WA_MSG: ${{ vars.WA_MSG }}
+          WA_MSG: ${{ vars.WA_MSG }}          
+          WA_SUBJECT: ${{ vars.WA_SUBJECT }}
 
         run: |
           chmod +x ./script.sh

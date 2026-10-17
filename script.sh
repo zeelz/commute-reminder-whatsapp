@@ -15,11 +15,12 @@ JQ_PAYLOAD=$(jq -n \
 --arg username "$EB_USERNAME" \
 --arg token "$EB_TOKEN" \
 --arg msg "$WA_MSG" \
+--arg subject "$WA_SUBJECT" \
 --arg recipients "$WA_RECIPIENTS" \
 '{
     WA: {
         auth: { username: $username, apikey: $token }, 
-        message: { subject: "Title for dashboard ONLY", messagetext: $msg }, 
+        message: { subject: $subject, messagetext: $msg }, 
         recipients: [$recipients]
     }
 }')
