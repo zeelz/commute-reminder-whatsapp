@@ -9,3 +9,4 @@ An automated **GitHub Actions** workflow that executes a Bash script every **Fri
 ## 📂 Project Structure
 *   `script.sh`: The core Bash script that packages payload data and sends the `POST` request using `curl`.
 *   `.github/workflows/reminder.yml`: The GitHub Actions workflow configuration.
+*   The script also used `jq` to properly prepare JSON payload.
