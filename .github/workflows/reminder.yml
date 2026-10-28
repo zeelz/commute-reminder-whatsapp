@@ -28,6 +28,7 @@ jobs:
           WA_RECIPIENTS: ${{ vars.WA_RECIPIENTS }}
           WA_MSG: ${{ vars.WA_MSG }}          
           WA_SUBJECT: ${{ vars.WA_SUBJECT }}
+          SLACK_WEBHOOK_URL: ${{ vars.SLACK_WEBHOOK_URL }}
 
         run: |
           chmod +x ./script.sh

@@ -46,12 +46,12 @@ if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 201 ]; then
     echo "Response: $HTTP_BODY"
 
     # name: Send EC2 IP to Slack
-    curl -X POST --header "Content-Type: application/json" -d "{\"text\": \"$SUCCESS_MSG\"}" ${{ vars.SLACK_WEBHOOK_URL }}
+    curl -X POST --header "Content-Type: application/json" -d "{\"text\": \"$SUCCESS_MSG\"}" $SLACK_WEBHOOK_URL
 else
     echo "Failed! API responded with status $HTTP_STATUS"
     echo "Error Response: $HTTP_BODY"
 
     # name: Send EC2 IP to Slack
-    curl -X POST --header "Content-Type: application/json" -d "{\"text\": \"$FAILED_MSG\"}" ${{ vars.SLACK_WEBHOOK_URL }}
+    curl -X POST --header "Content-Type: application/json" -d "{\"text\": \"$FAILED_MSG\"}" $SLACK_WEBHOOK_URL
     exit 1
 fi
