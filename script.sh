@@ -26,7 +26,6 @@ JQ_PAYLOAD=$(jq -n \
 }')
 
 
-
 # Call the sample API
 RESPONSE=$(curl -s -w "\n%{http_code}" \
   -X POST "https://api.ebulksms.com/sendwhatsapp.json" \
@@ -38,12 +37,21 @@ RESPONSE=$(curl -s -w "\n%{http_code}" \
 HTTP_BODY=$(echo "$RESPONSE" | sed '$d')
 HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
 
+SUCCESS_MSG="Commute reminder has been sent to Sunday!"
+FAILED_MSG="Commute reminder failed!"
+
 # Check the response status
 if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 201 ]; then
     echo "Success! API responded with status $HTTP_STATUS"
     echo "Response: $HTTP_BODY"
+
+    # name: Send EC2 IP to Slack
+    curl -X POST --header "Content-Type: application/json" -d "{\"text\": \"$SUCCESS_MSG\"}" ${{ vars.SLACK_WEBHOOK_URL }}
 else
     echo "Failed! API responded with status $HTTP_STATUS"
     echo "Error Response: $HTTP_BODY"
+
+    # name: Send EC2 IP to Slack
+    curl -X POST --header "Content-Type: application/json" -d "{\"text\": \"$FAILED_MSG\"}" ${{ vars.SLACK_WEBHOOK_URL }}
     exit 1
 fi
